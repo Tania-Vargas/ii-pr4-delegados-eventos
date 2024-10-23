@@ -18,11 +18,23 @@ En este ejercicio no se realizaron modificaciones en los scripts existentes. Se 
 ![Ejercicio 2](./gif/ii-pr4-ej2.gif)
 
 ### Ejercicio 3
-...
+En este ejercicio, se han realizado varias modificaciones respecto a la escena anterior. 
+- **Cubo**: El cubo permanece igual que en los ejercicios anteriores, sin modificaciones adicionales.
+- **Huevo de tipo 1 (verde)**: El huevo de tipo 1 se crea, pero no requiere ningún cambio en su comportamiento.
+- **Huevo de tipo 2 (rojo)**: Se le añade un collider y un Rigidbody para detectar colisiones y generar notificaciones. Se le asigna el script `ej3_huevo_t2`, donde se crean dos eventos de impacto: `OnChoqueHuevoT2A1` detecta colisiones con arañas de tipo 1, `OnChoqueHuevoT2A2` detecta colisiones con arañas de tipo 2. Cuando ocurre una colisión con la araña correspondiente, se lanza el evento que desencadena una acción.
+- **Araña de tipo 2 (roja)**: Se le agregan componentes collider y Rigidbody para detectar colisiones y lanzar notificaciones. El script asignado, `ej3_araña_t2`, define un evento llamado `OnChoqueArañaT2`, que se activa cuando el cubo colisiona con la araña. Además, para cambiar el color de la araña tras colisionar con el huevo de tipo 2, nos suscribimos al evento `OnChoqueHuevoT2A2`; dado que la araña es un prefab, es necesario acceder al hijo que contiene el material a cambiar; se obtiene el componente `Skinned Mesh Renderer` y se le asigna un material desde el inspector para reemplazar el existente, ya que cambiar solo el color no es suficiente.
+- **Araña de tipo 1 (verde)**: Se crea con componentes collider y Rigidbody, al igual que la araña de tipo 2. Para el cambio de color, se sigue el mismo procedimiento: nos suscribimos al evento `OnChoqueHuevoT2A1` para que, cuando el huevo de tipo 2 lance este evento, se cambie el material en el componente `Skinned Mesh Renderer` por uno asignado desde el inspector. Adicionalmente, se crea un notificador para detectar el evento `OnChoqueArañaT2` lanzado por la araña de tipo 2; al recibir este evento, localizamos la posición del huevo de tipo 1 y desplazamos la araña de tipo 1 hacia dicha posición; este movimiento, al estar relacionado con un `Rigidbody`, se debe gestionar en el método `FixedUpdate`, activando una flag que se verifica en dicho método. Por último, al detectar una colisión de la araña de tipo 1 en `OnCollisionEnter`, se activa una flag similar para que la araña se desplace hacia el huevo de tipo 2, y el movimiento también se realiza en `FixedUpdate`.
+
 ![Ejercicio 3](./gif/ii-pr4-ej3.gif)
 
 ### Ejercicio 4
-...
+En este ejercicio, se realizaron las siguientes modificaciones y configuraciones:
+- **Cubo**: El cubo se mantiene sin cambios en su comportamiento.
+- **Huevo tipo 2 (rojo)**: Se mantiene igual en su funcionalidad.
+- **Huevo tipo 1 (verde)**: Para simular el acercamiento del cubo, se creó un objeto vacío al que se le asignó un componente `Rigidbody` configurado como trigger. Este objeto actúa como envoltura del huevo. Además, se le asignó el script `ej4_cubo_cerca`, el cual lanza el evento `OnCuboCerca` al detectar un trigger con el cubo.
+- **Araña tipo 1 (verde)**: La araña permanece sin cambios, pero se le asignó un nuevo script `ej4_arania_t1`  que detecta el evento lanzado por el huevo tipo 1. Al detectarlo, se establece un flag que indica que se debe teletransportar. En el método `FixedUpdate`, se realiza el teletransporte hacia la posición del huevo tipo 1 utilizando `MovePosition`, ya que la araña está configurada como un `Rigidbody`.
+- **Araña tipo 2**: Se presentaron algunos problemas con la rotación de esta araña, posiblemente debido a la configuración del asset. Sin embargo, finalmente se logró que funcionara. En el script `ej4_arania_t2`, la detección del evento del huevo se maneja de manera similar a la araña tipo 1; al detectar el evento, se activa un flag de rotación. En el método `FixedUpdate`, se realiza la rotación utilizando `Slerp`. Se intentó utilizar `MoveRotation` del `Rigidbody`, pero no se logró el comportamiento deseado.
+
 ![Ejercicio 4](./gif/ii-pr4-ej4.gif)
 
 ### Ejercicio 5
