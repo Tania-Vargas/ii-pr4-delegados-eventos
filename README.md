@@ -38,21 +38,48 @@ En este ejercicio, se realizaron las siguientes modificaciones y configuraciones
 ![Ejercicio 4](./gif/ii-pr4-ej4.gif)
 
 ### Ejercicio 5
-...
+Para evitar conflictos con scripts y el funcionamiento de otras escenas, creamos una nueva escena similar a las anteriores. En este ejercicio, el cubo requiere algunos cambios:
+- **Modificación del cubo**: El cubo debe convertirse en un `Rigidbody` (anteriormente no lo era), lo que implica modificar su script de movimiento. Ahora, en el script de movimiento llamado `ej5_cubo_move`, el desplazamiento del cubo se realiza mediante el método `AddForce`.
+- **Detección de colisiones y puntuación**: Se crea un nuevo script, `ej5_cubo_puntuacion`, para gestionar las colisiones. En este script, dentro del método `OnCollisionEnter`, se detectan las colisiones del cubo. 
+  - Si la colisión ocurre con una araña de tipo 1, la variable `score` se incrementa en 5 puntos y el valor se muestra por consola. 
+  - Si la colisión es con una araña de tipo 2, el `score` se incrementa en 10 puntos, también mostrando el resultado en la consola.
+- **Huevos y arañas**: Los huevos en la escena no interfieren en el ejercicio, por lo que no se modifican. Las arañas tampoco requieren cambios, ya que todas las interacciones se gestionan a través de las modificaciones hechas al cubo.
+
 ![Ejercicio 5](./gif/ii-pr4-ej5.gif)
 
 ### Ejercicio 6
-...
+- Para aprovechar el trabajo realizado en el ejercicio anterior, se utiliza el script `ej5_cubo_puntuacion`. En este script, se añade un evento `OnUpdateScore` de tipo `Update`, que se dispara cada vez que se modifica la puntuación del cubo.
+- Se crea un `Canvas` con un componente `Text` inicializado con el texto **"Score: 0"**. A este `Canvas` se le asigna un nuevo script llamado `ej6_canvas_score`. Dentro de este script, el `Canvas` se suscribe al evento `OnUpdateScore` del cubo. Cada vez que el evento es lanzado, el texto del `Canvas` se actualiza automáticamente para reflejar la nueva puntuación, obtenida de la variable pública `score` del cubo.
+
 ![Ejercicio 6](./gif/ii-pr4-ej6.gif)
 
 ### Ejercicio 7
-...
+Para implementar la nueva mecánica de recompensas cada 100 puntos obtenidos, se aprovechó el script del `canvas` del ejercicio anterior, `ej6_canvas_score`. Se añadió una nueva variable, `recompensa`, que permite rastrear la cantidad de puntos de recompensa acumulados y determinar cuándo se deben mostrar nuevas recompensas en la interfaz de usuario.
+
+En el método `actualizaScore()`, se incorporó un bucle while que verifica si el puntaje ha aumentado en 100 puntos o más. Si se cumple esta condición, se actualiza la variable `recompensa` en 100 (preparando la variable para futuras comprobaciones) y se modifica el texto del `canvas`, añadiendo la recompensa en forma de **"+100 monedas"**. Esta recompensa se concatena al texto de puntuación que ya está presente en el `canvas`.
+
 ![Ejercicio 7](./gif/ii-pr4-ej7.gif)
 
 ### Ejercicio 8
-...
+En este ejercicio, se desarrolló un pequeño juego de plataformas utilizando un prefab de un personaje con sus movimientos ya programados. Inicialmente, hubo dificultades para seleccionar el prefab correcto, lo que causó algunos problemas, pero una vez solucionado, no fue necesario modificar la lógica de los movimientos del personaje.
+
+Se implementó un script llamado `ej8_charapter` para gestionar los eventos relacionados con el personaje. Este script actúa como un notificador, lanzando los siguientes eventos:
+
+- **OnScoreUpdate:** Se activa cuando el personaje pisa una plataforma, detectado a través de colisiones con las mismas.
+- **OnGameOver:** Este evento se lanza cuando el personaje cae al plano que está por debajo de las plataformas, lo que indica que ha perdido.
+- **OnWin:** Se dispara cuando el personaje llega a la última plataforma, señalando que ha completado el nivel.
+
+Además, se añadió un Canvas para mostrar la interfaz gráfica del juego. Se creó un script denominado `ej8_canvas`, que se suscribe a los tres eventos generados por el personaje. Este script realiza las siguientes acciones:
+
+- **Actualización de la puntuación:** Al recibir el evento `OnScoreUpdate`, obtiene la puntuación actual del personaje y actualiza el texto de la puntuación en la pantalla.
+- **Fin del juego (Game Over):** Cuando se detecta el evento `OnGameOver`, se modifica el texto a "Game Over", centrado en la pantalla y con color rojo.
+- **Victoria:** Al recibir el evento `OnWin`, el texto se cambia a "You Win", centrado en la pantalla y con color verde, además de mostrar la puntuación final.
+
+Por cuestiones de tiempo, no se pudieron implementar funcionalidades adicionales. La idea original era que el personaje recogiera objetos que otorgaran más o menos puntos, y que la lógica de las plataformas fuera más precisa. Sin embargo, la estructura básica del juego y el manejo de eventos se completó correctamente.
+
 ![Ejercicio 8](./gif/ii-pr4-ej8.gif)
 
 ### Ejercicio 9
-...
+En este ejercicio, se aprovechan los desarrollos realizados en ejercicios anteriores. Se copia la escena implementada en el ejercicio 3. En esta versión, no es necesario modificar las arañas ni los huevos, dado que su funcionamiento permanece igual que en los scripts del ejercicio 3. Sin embargo, el cubo requiere modificaciones. Se le añade un `Rigidbody`, y en lugar del script de movimiento utilizado en el ejercicio 3, se incorpora el script `ej5_cubo_move` creado anteriormente. Este script utiliza `AddForce` para desplazar el cubo.
+
 ![Ejercicio 9](./gif/ii-pr4-ej9.gif)
